@@ -4,8 +4,10 @@ import * as genresRepository from '../genres/genres.repository.js';
 import * as genresGameTitlesService from '../genres_gameTitles/genres_gameTitles.service.js';
 
 async function getById({ id }) {
-  const gameTitles = await gameTitlesRepository.getById({ id });
-  return gameTitles;
+  const gameTitle = await gameTitlesRepository.getById({ id });
+  const genres = await genresRepository.getByTitleId(id);
+  gameTitle.genres = genres;
+  return gameTitle;
 }
 
 async function getAll() {
