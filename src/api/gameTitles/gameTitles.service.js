@@ -12,7 +12,13 @@ async function getById({ id }) {
 
 async function getAll() {
   const gameTitles = await gameTitlesRepository.getAll();
-  return gameTitles;
+  return Promise.all(
+    gameTitles.map(async (gameTitle) => {
+      const titleGenres = await genresRepository.getByTitleId(gameTitle._id);
+      const gameTitleWithGenres = { ...gameTitle, genres: titleGenres };
+      return gameTitleWithGenres;
+    }),
+  );
 }
 
 async function getByProductId(productId) {

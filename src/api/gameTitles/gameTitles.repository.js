@@ -6,7 +6,7 @@ async function getById({ id }) {
 }
 
 async function getAll() {
-  const gameTitles = await GameTitleModel.find();
+  const gameTitles = await GameTitleModel.find().lean();
   return gameTitles;
 }
 
