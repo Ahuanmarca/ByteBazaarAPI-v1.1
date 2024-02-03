@@ -44,10 +44,19 @@ async function create(newTitleData) {
   return { created: newGameTitle };
 }
 
+async function updateGenres(id, genres) {
+  const foundGenres = await genresRepository.getByNames(genres);
+  if (foundGenres.length !== genres.length) return 'Aborted: One or more genres not found.';
+  const genresId = foundGenres.map((g) => g._id);
+
+  const updatedTitle = await gameTitlesRepository.updateGenres(id, genresId);
+  return updatedTitle;
+}
 
 export {
   getById,
   getAll,
   getByProductId,
   create,
+  updateGenres,
 };

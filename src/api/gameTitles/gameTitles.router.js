@@ -7,4 +7,5 @@ router.get('/all', gameTitlesController.getAll); // this line of code must be ab
 router.get('/:id', gameTitlesController.getById);
 router.get('/productId/:id', gameTitlesController.getByProductId);
 router.post('/create', gameTitlesController.create);
+router.patch('/updateGenres/:id', gameTitlesController.updateGenres);
 export default router;

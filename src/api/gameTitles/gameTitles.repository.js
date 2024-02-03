@@ -29,10 +29,20 @@ async function create(newTitleData) {
   return newTitle;
 }
 
+async function updateGenres(id, genresId) {
+  const updatedTitle = await GameTitleModel.findByIdAndUpdate(
+    { _id: id },
+    { $addToSet: { genresId } },
+    { new: true },
+  );
+  return updatedTitle;
+}
+
 export {
   getById,
   getAll,
   getByProductId,
   getByTitle,
   create,
+  updateGenres,
 };

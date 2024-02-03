@@ -17,6 +17,7 @@ const gameTitlesSchema = new Schema({
   genresId: [{
     type: ObjectId,
     ref: 'Genre',
+    unique: true, // this doesn't seem to create a restriction
   }],
 });
 

@@ -22,9 +22,17 @@ async function create(req, res) {
   res.json(newTitleAndGenreRelation);
 }
 
+async function updateGenres(req, res) {
+  const { id } = req.params;
+  const { genres } = req.body;
+  const updatedTitle = await gameTitlesService.updateGenres(id, genres);
+  res.json(updatedTitle);
+}
+
 export {
   getById,
   getAll,
   getByProductId,
   create,
+  updateGenres,
 };
