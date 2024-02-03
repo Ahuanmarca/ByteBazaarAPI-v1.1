@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+const { ObjectId } = Schema.Types;
+
 const gameTitlesSchema = new Schema({
   title: {
     type: String,
@@ -12,6 +14,10 @@ const gameTitlesSchema = new Schema({
   image: {
     type: String,
   },
+  genresId: [{
+    type: ObjectId,
+    ref: 'Genre',
+  }],
 });
 
 const gameTitleModel = model('GameTitle', gameTitlesSchema, 'gameTitles');

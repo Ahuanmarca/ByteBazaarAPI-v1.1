@@ -5,8 +5,6 @@ import * as genresGameTitlesService from '../genres_gameTitles/genres_gameTitles
 
 async function getById({ id }) {
   const gameTitle = await gameTitlesRepository.getById({ id });
-  const genres = await genresRepository.getByTitleId(id);
-  gameTitle.genres = genres;
   return gameTitle;
 }
 
