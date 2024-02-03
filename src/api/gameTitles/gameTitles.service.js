@@ -1,7 +1,6 @@
 import * as gameTitlesRepository from './gameTitles.repository.js';
 import * as productsService from '../products/products.service.js';
 import * as genresRepository from '../genres/genres.repository.js';
-import * as genresGameTitlesService from '../genres_gameTitles/genres_gameTitles.service.js';
 
 async function getById({ id }) {
   const gameTitle = await gameTitlesRepository.getById({ id });
@@ -30,35 +29,21 @@ async function create(newTitleData) {
     title, description, image, genres,
   } = newTitleData;
 
-  const created = {
-    gameTitle: [],
-    genres: [],
-    genre_gameTitleRelation: [],
-  };
-
-  let titleUpsert;
+  // Abort GameTitle creation if GameTitle already exists OR some genre does not exist
   const foundGameTitle = await gameTitlesRepository.getByTitle(title);
-  if (foundGameTitle) {
-    titleUpsert = foundGameTitle;
-  } else {
-    titleUpsert = await gameTitlesRepository.create({ title, description, image });
-    created.gameTitle.push(titleUpsert);
-  }
-
+  if (foundGameTitle) return 'GameTitle aready exists';
   const foundGenres = await genresRepository.getByNames(genres);
-  const newGenres = await genresRepository.upsertMany(genres);
-  created.genres.push(...Object.values(newGenres.upsertedIds));
-  const allGenres = [...foundGenres.map((g) => g._id), ...Object.values(newGenres.upsertedIds)];
+  if (foundGenres.length !== genres.length) return 'One or more genres not found. GameTitle creation aborted.';
 
-  const relationsArray = allGenres.map((g) => ({
-    gameTitle_id: titleUpsert._id,
-    genre_id: g,
-  }));
-  const newRelations = await genresGameTitlesService
-    .upsertMany(relationsArray);
-  created.genre_gameTitleRelation.push(...Object.values(newRelations.upsertedIds));
-  return { created };
+  const newGameTitle = await gameTitlesRepository.create({
+    title,
+    description,
+    image,
+    genresId: foundGenres.map((genre) => genre._id),
+  });
+  return { created: newGameTitle };
 }
+
 
 export {
   getById,
