@@ -10,7 +10,13 @@ async function getById(id) {
   return genre;
 }
 
+async function getByNames(genres) {
+  const foundGenres = await genresRepository.getByNames(genres);
+  return foundGenres;
+}
+
 export {
   getById,
   getAll,
+  getByNames,
 };
