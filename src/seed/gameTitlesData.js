@@ -1,9 +1,12 @@
+import mongoose from 'mongoose';
 import genresData from './genresData.js';
 
+const { ObjectId } = mongoose.Types;
 const genresMap = Object.fromEntries(genresData.map((g) => [g.name, g._id]));
 
 const gameTitlesData = [
   {
+    _id: new ObjectId('65be7fb98709074a53fa39df'),
     title: 'Elden Ring',
     description: 'Description of Elden Ring',
     image:
@@ -11,6 +14,7 @@ const gameTitlesData = [
     genresId: ['action', 'role'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e0'),
     title: 'Tetris Ultimate',
     description: 'Description of Tetris Ultimate',
     image:
@@ -18,6 +22,7 @@ const gameTitlesData = [
     genresId: ['arcadian'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e1'),
     title: 'Arkanoid',
     description: 'Description of Arkanoid',
     image:
@@ -25,6 +30,7 @@ const gameTitlesData = [
     genresId: ['arcadian'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e2'),
     title: 'Yu-Gi-Oh! Legacy of the Duelist',
     description: 'Description of Yu-Gi-Oh! Legacy of the Duelist',
     image:
@@ -32,6 +38,7 @@ const gameTitlesData = [
     genresId: ['strategy'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e3'),
     title: 'Euro Truck Simulator',
     description: 'Description of Euro Truck Simulator',
     image:
@@ -39,6 +46,7 @@ const gameTitlesData = [
     genresId: ['simulation'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e4'),
     title: 'Just Dance 2020',
     description: 'Description of Just Dance 2020',
     image:
@@ -46,6 +54,7 @@ const gameTitlesData = [
     genresId: ['musicalGames'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e5'),
     title: 'Guitar Hero 2',
     description: 'Description of Guitar Hero 2',
     image:
@@ -53,6 +62,7 @@ const gameTitlesData = [
     genresId: ['musicalGames'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e6'),
     title: 'Donkey Konga',
     description: 'Description of Donkey Konga',
     image:
@@ -60,6 +70,7 @@ const gameTitlesData = [
     genresId: ['musicalGames'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e7'),
     title: 'It takes two',
     description: 'Description of It takes two',
     image:
@@ -67,6 +78,7 @@ const gameTitlesData = [
     genresId: ['platforms', 'graphicAdventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e8'),
     title: "Baldur's Gate 3",
     description: "Description of Baldur's Gate 3",
     image:
@@ -74,6 +86,7 @@ const gameTitlesData = [
     genresId: ['role'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39e9'),
     title: 'Alan Wake 2',
     description: 'Description of Alan Wake 2',
     image:
@@ -81,6 +94,7 @@ const gameTitlesData = [
     genresId: ['terror'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ea'),
     title: 'Phasmophobia',
     description: 'Description of Phasmophobia',
     image:
@@ -88,6 +102,7 @@ const gameTitlesData = [
     genresId: ['terror'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39eb'),
     title: 'Amnesia Collection',
     description: 'Description of Amnesia Collection',
     image:
@@ -95,6 +110,7 @@ const gameTitlesData = [
     genresId: ['terror'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ec'),
     title: 'Metal Gear Solid 3: Snake Eater',
     description: 'Description of Metal Gear Solid 3: Snake Eater',
     image:
@@ -102,6 +118,7 @@ const gameTitlesData = [
     genresId: ['stealth'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ed'),
     title: 'Detroit Become Human',
     description: 'Description of Detroit Become Human',
     image:
@@ -109,6 +126,7 @@ const gameTitlesData = [
     genresId: ['graphicAdventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ee'),
     title: 'The Talos Principle 2',
     description: 'Description of The Talos Principle 2',
     image:
@@ -116,6 +134,7 @@ const gameTitlesData = [
     genresId: ['puzzle'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ef'),
     title: 'Grand Theft Auto V',
     description: 'Description of Grand Theft Auto V',
     image:
@@ -123,6 +142,7 @@ const gameTitlesData = [
     genresId: ['sandbox'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f0'),
     title: 'God of War Ragnarök',
     description: 'Description of God of War Ragnarök',
     image:
@@ -130,6 +150,7 @@ const gameTitlesData = [
     genresId: ['adventure', 'action'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f1'),
     title: 'Resident Evil 4 Remake',
     description: 'Description of Resident Evil 4 Remake',
     image:
@@ -137,6 +158,7 @@ const gameTitlesData = [
     genresId: ['adventure', 'action'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f2'),
     title: 'Mario + Rabbids: Sparks of Hope',
     description: 'Description of Mario + Rabbids: Sparks of Hope',
     image:
@@ -144,6 +166,7 @@ const gameTitlesData = [
     genresId: ['strategy'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f3'),
     title: 'Microsoft Flight Simulator X',
     description: 'Description of Microsoft Flight Simulator X',
     image:
@@ -151,6 +174,7 @@ const gameTitlesData = [
     genresId: ['simulation'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f4'),
     title: 'FIFA Manager 13',
     description: 'Description of FIFA Manager 13',
     image:
@@ -158,6 +182,7 @@ const gameTitlesData = [
     genresId: ['simulation', 'sports'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f5'),
     title: 'Duck Hunt',
     description: 'Description of Duck Hunt',
     image:
@@ -165,6 +190,7 @@ const gameTitlesData = [
     genresId: ['arcadian', 'shooter'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f6'),
     title: 'Street Fighter 6',
     description: 'Description of Street Fighter 6',
     image:
@@ -172,6 +198,7 @@ const gameTitlesData = [
     genresId: ['fight'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f7'),
     title: 'Mortal Kombat 11',
     description: 'Description of Mortal Kombat 11',
     image:
@@ -179,6 +206,7 @@ const gameTitlesData = [
     genresId: ['fight'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f8'),
     title: 'Crash Team Racing Nitro-Fueled',
     description: 'Description of Crash Team Racing Nitro-Fueled',
     image:
@@ -186,6 +214,7 @@ const gameTitlesData = [
     genresId: ['racing'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39f9'),
     title: 'Doom Eternal',
     description: 'Description of Doom Eternal',
     image:
@@ -193,6 +222,7 @@ const gameTitlesData = [
     genresId: ['shooter'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39fa'),
     title: "Assassin's Creed Odyssey",
     description: "Description of Assassin's Creed Odyssey",
     image:
@@ -200,6 +230,7 @@ const gameTitlesData = [
     genresId: ['stealth'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39fb'),
     title: 'The Walking Dead: The Telltale',
     description: 'Description of The Walking Dead: The Telltale',
     image:
@@ -207,6 +238,7 @@ const gameTitlesData = [
     genresId: ['graphicAdventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39fc'),
     title: 'The Talos Principle',
     description: 'Description of The Talos Principle',
     image:
@@ -214,6 +246,7 @@ const gameTitlesData = [
     genresId: ['puzzle'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39fd'),
     title: 'Portal 2',
     description: 'Description of Portal 2',
     image:
@@ -221,6 +254,7 @@ const gameTitlesData = [
     genresId: ['puzzle'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39fe'),
     title: 'Little Nightmares I & II',
     description: 'Description of Little Nightmares I & II',
     image:
@@ -228,6 +262,7 @@ const gameTitlesData = [
     genresId: ['puzzle'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa39ff'),
     title: 'Red Dead Redemption 2',
     description: 'Description of Red Dead Redemption 2',
     image:
@@ -235,6 +270,7 @@ const gameTitlesData = [
     genresId: ['sandbox'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a00'),
     title: 'Resident Evil 2 Remake',
     description: 'Description of Resident Evil 2 Remake',
     image:
@@ -242,6 +278,7 @@ const gameTitlesData = [
     genresId: ['adventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a01'),
     title: 'Space Invaders',
     description: 'Description of Space Invaders',
     image:
@@ -249,6 +286,7 @@ const gameTitlesData = [
     genresId: ['arcadian'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a02'),
     title: "Tony Hawk's Pro Skater 1+2",
     description: "Description of Tony Hawk's Pro Skater 1+2",
     image:
@@ -256,6 +294,7 @@ const gameTitlesData = [
     genresId: ['sports'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a03'),
     title: 'Rocket League',
     description: 'Description of Rocket League',
     image:
@@ -263,6 +302,7 @@ const gameTitlesData = [
     genresId: ['sports'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a04'),
     title: 'Total War: Warhammer 3',
     description: 'Description of Total War: Warhammer 3',
     image:
@@ -270,6 +310,7 @@ const gameTitlesData = [
     genresId: ['strategy'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a05'),
     title: 'Monopoly',
     description: 'Description of Monopoly',
     image:
@@ -277,6 +318,7 @@ const gameTitlesData = [
     genresId: ['tableGames', 'strategy'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a06'),
     title: 'Hanna Montana Music Jam',
     description: 'Description of Hanna Montana Music Jam',
     image:
@@ -284,6 +326,7 @@ const gameTitlesData = [
     genresId: ['musicalGames'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a07'),
     title: 'Super Smash Bros Melee',
     description: 'Description of Super Smash Bros Melee',
     image:
@@ -291,6 +334,7 @@ const gameTitlesData = [
     genresId: ['fight'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a08'),
     title: 'Need for Speed: Underground 2',
     description: 'Description of Need for Speed: Underground 2',
     image:
@@ -298,6 +342,7 @@ const gameTitlesData = [
     genresId: ['racing'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a09'),
     title: 'Ori and the Will of the Wisps',
     description: 'Description of Ori and the Will of the Wisps',
     image:
@@ -305,6 +350,7 @@ const gameTitlesData = [
     genresId: ['platforms'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0a'),
     title: 'Ori and the Blind Forest',
     description: 'Description of Ori and the Blind Forest',
     image:
@@ -312,6 +358,7 @@ const gameTitlesData = [
     genresId: ['platforms'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0b'),
     title: 'Cuphead',
     description: 'Description of Cuphead',
     image:
@@ -319,6 +366,7 @@ const gameTitlesData = [
     genresId: ['platforms'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0c'),
     title: 'Final Fantasy X',
     description: 'Description of Final Fantasy X',
     image:
@@ -326,6 +374,7 @@ const gameTitlesData = [
     genresId: ['role'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0d'),
     title: 'Quake',
     description: 'Description of Quake',
     image:
@@ -333,6 +382,7 @@ const gameTitlesData = [
     genresId: ['shooter'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0e'),
     title: 'Splinter Cell: Chaos Theory',
     description: 'Description of Splinter Cell: Chaos Theory',
     image:
@@ -340,6 +390,7 @@ const gameTitlesData = [
     genresId: ['stealth'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a0f'),
     title: 'Twelve Minutes',
     description: 'Description of Twelve Minutes',
     image:
@@ -347,6 +398,7 @@ const gameTitlesData = [
     genresId: ['graphicAdventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a10'),
     title: 'Minecraft',
     description: 'Description of Minecraft',
     image:
@@ -354,6 +406,7 @@ const gameTitlesData = [
     genresId: ['sandbox'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a11'),
     title: 'Terraria',
     description: 'Description of Terraria',
     image:
@@ -361,6 +414,7 @@ const gameTitlesData = [
     genresId: ['sandbox'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a12'),
     title: 'Sekiro',
     description: 'Description of Sekiro',
     image:
@@ -368,6 +422,7 @@ const gameTitlesData = [
     genresId: ['action'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a13'),
     title: 'Metroid Prime Remastered',
     description: 'Description of Metroid Prime Remastered',
     image:
@@ -375,6 +430,7 @@ const gameTitlesData = [
     genresId: ['adventure'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a14'),
     title: 'PAC-MAN 256',
     description: 'Description of PAC-MAN 256',
     image:
@@ -382,6 +438,7 @@ const gameTitlesData = [
     genresId: ['arcadian'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a15'),
     title: 'Golf it!',
     description: 'Description of Golf it!',
     image:
@@ -389,6 +446,7 @@ const gameTitlesData = [
     genresId: ['sports'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a16'),
     title: 'Age of Empires 4',
     description: 'Description of Age of Empires 4',
     image:
@@ -396,6 +454,7 @@ const gameTitlesData = [
     genresId: ['strategy'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a17'),
     title: 'Goat Simulator',
     description: 'Description of Goat Simulator',
     image:
@@ -403,6 +462,7 @@ const gameTitlesData = [
     genresId: ['simulation'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a18'),
     title: 'Tekken',
     description: 'Description of Tekken',
     image:
@@ -410,6 +470,7 @@ const gameTitlesData = [
     genresId: ['fight'].map((g) => genresMap[g]),
   },
   {
+    _id: new ObjectId('65be7fb98709074a53fa3a19'),
     title: 'F1 2012',
     description: 'Description of F1 2012',
     image:
