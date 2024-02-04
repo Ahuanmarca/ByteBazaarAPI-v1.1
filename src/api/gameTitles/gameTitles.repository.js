@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import GameTitleModel from './gameTitles.model.js';
 
 async function getById({ id }) {
@@ -5,11 +6,22 @@ async function getById({ id }) {
     .findById(id)
     .populate('genresId')
     .lean();
+  gameTitle.genres = gameTitle.genresId.map((g) => g.name);
+  delete gameTitle.genresId;
   return gameTitle;
 }
 
 async function getAll() {
-  const gameTitles = await GameTitleModel.find().lean();
+  const gameTitles = await GameTitleModel
+    .find()
+    .populate('genresId')
+    .lean();
+  // Manipulating the objects to return 'genres: ['genre1', 'genre2']' array,
+  // instead of a 'genresId' array with objects. Can I do this on the query?
+  gameTitles.forEach((game) => {
+    game.genres = game.genresId.map((g) => g.name);
+    delete game.genresId;
+  });
   return gameTitles;
 }
 
