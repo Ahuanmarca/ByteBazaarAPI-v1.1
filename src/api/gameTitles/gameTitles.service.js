@@ -47,10 +47,16 @@ async function updateGenres(id, genres) {
   return updatedTitle;
 }
 
+async function destroy(id) {
+  const deletedTitle = await gameTitlesRepository.destroy(id);
+  return deletedTitle;
+}
+
 export {
   getById,
   getAll,
   getByProductId,
   create,
   updateGenres,
+  destroy,
 };

@@ -29,10 +29,17 @@ async function updateGenres(req, res) {
   res.json(updatedTitle);
 }
 
+async function destroy(req, res) {
+  const { id } = req.params;
+  const deletedTitle = await gameTitlesService.destroy(id);
+  res.json(deletedTitle);
+}
+
 export {
   getById,
   getAll,
   getByProductId,
   create,
   updateGenres,
+  destroy,
 };

@@ -52,6 +52,12 @@ async function updateGenres(id, genresId) {
   return updatedTitle;
 }
 
+async function destroy(id) {
+  const deletedTitle = await GameTitleModel.findByIdAndDelete(id);
+  if (!deletedTitle) return 'GameTitle does not exist!';
+  return { deleted: deletedTitle };
+}
+
 export {
   getById,
   getAll,
@@ -59,4 +65,5 @@ export {
   getByTitle,
   create,
   updateGenres,
+  destroy,
 };
