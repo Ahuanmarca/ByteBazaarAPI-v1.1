@@ -6,6 +6,7 @@ async function getById({ id }) {
     .findById(id)
     .populate('genresId')
     .lean();
+  if (!gameTitle) return 'gameTitle not found!';
   gameTitle.genres = gameTitle.genresId.map((g) => g.name);
   delete gameTitle.genresId;
   return gameTitle;
@@ -16,6 +17,7 @@ async function getAll() {
     .find()
     .populate('genresId')
     .lean();
+  if (gameTitles.length === 0) return 'No gameTitles found!';
   // Manipulating the objects to return 'genres: ['genre1', 'genre2']' array,
   // instead of a 'genresId' array with objects. Can I do this on the query?
   gameTitles.forEach((game) => {
