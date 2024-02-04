@@ -18,8 +18,8 @@ async function getByProductId(req, res) {
 }
 
 async function create(req, res) {
-  const newTitleAndGenreRelation = await gameTitlesService.create(req.body);
-  res.json(newTitleAndGenreRelation);
+  const newGameTitle = await gameTitlesService.create(req.body);
+  res.json(newGameTitle);
 }
 
 async function updateGenres(req, res) {
