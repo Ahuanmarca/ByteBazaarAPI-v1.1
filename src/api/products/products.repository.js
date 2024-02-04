@@ -4,8 +4,15 @@ async function getAll({ skip, limit }) {
   const products = await ProductsModel
     .find({})
     .select('stock price')
-    .populate({ path: 'gameTitle_id', select: '-_id -description' })
-    .populate({ path: 'platform_id', select: '-_id' })
+    .populate({
+      path: 'gameTitle_id',
+      select: '-_id -description -__v',
+      populate: {
+        path: 'genresId',
+        select: '-_id -__v',
+      },
+    })
+    .populate({ path: 'platform_id', select: '-_id -__v' })
     .sort({ listedDate: -1 })
     .skip(skip)
     .limit(limit)
