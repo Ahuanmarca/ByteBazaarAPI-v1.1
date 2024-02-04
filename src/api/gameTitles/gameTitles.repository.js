@@ -27,11 +27,6 @@ async function getAll() {
   return gameTitles;
 }
 
-async function getByProductId({ gameTitleId }) {
-  const gameTitle = await GameTitleModel.findById(gameTitleId).lean();
-  return gameTitle;
-}
-
 async function getByTitle(title) {
   const gameTitle = GameTitleModel.findOne({ title });
   return gameTitle;
@@ -61,7 +56,6 @@ async function destroy(id) {
 export {
   getById,
   getAll,
-  getByProductId,
   getByTitle,
   create,
   updateGenres,

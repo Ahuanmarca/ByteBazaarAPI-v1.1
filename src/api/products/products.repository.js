@@ -14,7 +14,18 @@ async function getAll({ skip, limit }) {
 }
 
 async function getById({ id }) {
-  const product = await ProductsModel.findById(id).lean();
+  const product = await ProductsModel
+    .findById(id)
+    .populate({
+      path: 'gameTitle_id',
+      // TODO: Return genres as 'genres' array with array of strings
+      populate: {
+        path: 'genresId',
+        select: '-_id -__v',
+      },
+    })
+    .populate('platform_id')
+    .lean();
   return product;
 }
 
@@ -41,7 +52,7 @@ const getRelated = async ({ gameTitleIds, product, limit = 3 }) => {
 };
 
 async function getPricesAndStockById({ productIds }) {
-  const pricesAndStock = await productsModel
+  const pricesAndStock = await ProductsModel
     .find({ _id: { $in: productIds } })
     .select('price stock')
     .lean();
@@ -55,7 +66,7 @@ async function updateStock({ products }) {
       update: { $inc: { stock: -product.quantity } },
     },
   }));
-  const res = await productsModel.bulkWrite(productsBulk);
+  const res = await ProductsModel.bulkWrite(productsBulk);
   return res;
 }
 

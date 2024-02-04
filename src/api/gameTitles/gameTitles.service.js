@@ -13,9 +13,8 @@ async function getAll() {
 }
 
 async function getByProductId(productId) {
-  const product = await productsService.getById({ _id: productId });
-  const gameTitles = await gameTitlesRepository.getByProductId({ gameTitleId: product._id });
-  return gameTitles;
+  const product = await productsService.getById({ id: productId });
+  return product.gameTitle_id;
 }
 
 async function create(newTitleData) {

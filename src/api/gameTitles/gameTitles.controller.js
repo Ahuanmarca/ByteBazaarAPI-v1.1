@@ -13,8 +13,8 @@ async function getAll(req, res) {
 
 async function getByProductId(req, res) {
   const productId = req.params.id;
-  const gameTitles = await gameTitlesService.getByProductId(productId);
-  res.json(gameTitles);
+  const gameTitle = await gameTitlesService.getByProductId(productId);
+  res.json(gameTitle);
 }
 
 async function create(req, res) {
