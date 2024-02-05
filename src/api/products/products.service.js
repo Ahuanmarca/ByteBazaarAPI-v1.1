@@ -1,9 +1,7 @@
 import * as productsRepository from './products.repository.js';
 import * as ordersRepository from '../orders/orders.repository.js';
 import * as gameTitlesRepository from '../gameTitles/gameTitles.repository.js';
-import * as ordersService from '../orders/orders.service.js';
 import * as usersService from '../users/users.service.js';
-import * as orderProductsService from '../orderProducts/orderProducts.service.js';
 
 async function getAll({ skip, limit }) {
   const products = await productsRepository.getAll({ skip, limit });
@@ -52,7 +50,7 @@ function addDataToProducts({ products, pricesAndStock }) {
     const product = products[i];
     for (let j = 0; j < pricesAndStock.length; j++) {
       const priceAndStock = pricesAndStock[j];
-      if (product.productId === priceAndStock._id.valueOf()) {
+      if (product.product === priceAndStock._id.valueOf()) {
         product.price = priceAndStock.price;
         product.stock = priceAndStock.stock;
       }
@@ -63,7 +61,8 @@ function addDataToProducts({ products, pricesAndStock }) {
 
 async function buy({ orderData, user }) {
   const { products } = orderData;
-  const productIds = products.map((product) => product.productId);
+  const productIds = products.map((product) => product.product);
+
   const pricesAndStock = await productsRepository.getPricesAndStockById({ productIds });
   addDataToProducts({ products, pricesAndStock });
   const isInsufficentStock = products.filter((product) => product.quantity > product.stock);
@@ -80,22 +79,26 @@ async function buy({ orderData, user }) {
     const productTotal = product.price * product.quantity;
     total += productTotal;
   });
+
+  // TODO: Don't go to usersService, should go to usersRepository to avoid circular dependencies
   const updatedCredit = await usersService.updateCredit({ user, paymentMethod, total });
   if (updatedCredit.error) {
     return updatedCredit;
   }
+
   await productsRepository.updateStock({ products });
   const userId = user._id;
-  const orderId = await ordersService.log({ userId, total });
-  await orderProductsService.log({ orderId, products });
-  // eslint-disable-next-line no-param-reassign
-  products.forEach((product) => delete product.stock);
+  const order = await ordersRepository.log({ userId, total, products });
+
   const result = {
-    products,
+    order,
     [paymentMethod]: updatedCredit,
   };
+
   return result;
 }
+
+// TODO: 'product.product' is very confusing (55 and 65). Improve it!
 
 export {
   getAll,

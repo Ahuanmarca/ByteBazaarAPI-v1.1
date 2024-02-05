@@ -21,7 +21,7 @@ async function validate({ email }) {
 }
 
 async function updateCredit({ user, paymentMethod, total }) {
-  const updatedUserData = await userModel.findOneAndUpdate(
+  const updatedUserData = await UserModel.findOneAndUpdate(
     { _id: user._id },
     { $inc: { [paymentMethod]: -total } },
     { new: true },

@@ -8,12 +8,8 @@ const gameTitlesMap = Object.fromEntries(gameTitlesData.map((g) => [g.title, g._
 const platformsMap = Object.fromEntries(platformsData.map((p) => [p.name, p._id]));
 
 /**
- * I'm hardcoding the id's of some products so I can
- * hardcode the same id's on some orders, for simplicity
- * of the seeding script
- * 65c092e67aaecf4937ffad34 first EldenRing
- * 65c092e67aaecf4937ffad37 first God of War
- * 65c092e67aaecf4937ffad41 first Metroid Prime
+ * Hardcoding the id's of the first 15 products so we can hardcode
+ * the same id's on some orders, for simplicity of the seeding script
  */
 
 const productsData = [
@@ -26,6 +22,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e7b'), // HARDCODED
     gameTitle: gameTitlesMap['Elden Ring'],
     platform: platformsMap['PlayStation5'],
     stock: 5,
@@ -33,6 +30,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e7c'), // HARDCODED
     gameTitle: gameTitlesMap['Elden Ring'],
     platform: platformsMap['PC'],
     stock: 5,
@@ -48,6 +46,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e7e'), // HARDCODED
     gameTitle: gameTitlesMap['God of War Ragnarök'],
     platform: platformsMap['PlayStation5'],
     stock: 5,
@@ -55,6 +54,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e7f'), // HARDCODED
     gameTitle: gameTitlesMap['Sekiro'],
     platform: platformsMap['PlayStation4'],
     stock: 5,
@@ -62,6 +62,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e80'), // HARDCODED
     gameTitle: gameTitlesMap['Sekiro'],
     platform: platformsMap['PlayStation5'],
     stock: 5,
@@ -69,6 +70,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e81'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 4 Remake'],
     platform: platformsMap['PlayStation5'],
     stock: 5,
@@ -76,6 +78,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e82'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 4 Remake'],
     platform: platformsMap['XBoxSeries'],
     stock: 5,
@@ -83,6 +86,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e83'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 4 Remake'],
     platform: platformsMap['PC'],
     stock: 5,
@@ -90,6 +94,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e84'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 2 Remake'],
     platform: platformsMap['PlayStation4'],
     stock: 5,
@@ -97,6 +102,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e85'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 2 Remake'],
     platform: platformsMap['XBoxOne'],
     stock: 5,
@@ -104,6 +110,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e86'), // HARDCODED
     gameTitle: gameTitlesMap['Resident Evil 2 Remake'],
     platform: platformsMap['PC'],
     stock: 5,
@@ -119,6 +126,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c09ac91d4efb377d475e88'), // HARDCODED
     gameTitle: gameTitlesMap['PAC-MAN 256'],
     platform: platformsMap['PC'],
     stock: 100,

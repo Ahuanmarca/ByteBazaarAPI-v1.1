@@ -22,10 +22,9 @@ async function getOrdersByUserId({ userId }) {
   return orders;
 }
 
-async function log({ userId, total }) {
-  const order = await OrdersModel.create({ user: userId, total });
-  const { _id } = order;
-  return _id;
+async function log({ userId, total, products }) {
+  const order = await OrdersModel.create({ user: userId, total, products });
+  return order;
 }
 
 export {

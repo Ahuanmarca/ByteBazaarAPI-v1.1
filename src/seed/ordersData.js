@@ -11,12 +11,12 @@ const ordersData = [
       {
         product: new ObjectId('65c092e67aaecf4937ffad34'), // EldenRing PS4
         quantity: 1,
-        soldPrice: 50,
+        price: 50,
       },
       {
         product: new ObjectId('65c092e67aaecf4937ffad37'), // God of War PS4
         quantity: 1,
-        soldPrice: 50,
+        price: 50,
       },
     ],
   },
@@ -28,7 +28,7 @@ const ordersData = [
       {
         product: new ObjectId('65c092e67aaecf4937ffad41'), // Metroid Prime Switch
         quantity: 1,
-        soldPrice: 50,
+        price: 50,
       },
     ],
   },
