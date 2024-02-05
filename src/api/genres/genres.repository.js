@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import GenreModel from './genres.model.js';
 
 async function getAll() {

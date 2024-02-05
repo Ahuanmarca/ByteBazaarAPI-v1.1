@@ -42,7 +42,6 @@ async function getRelated(req, res) {
 async function buy(req, res) {
   const { body } = req;
   const user = req.body.user || debugUser; // Use DEBUG User if not logged
-  // res.json({ body, user }); return;
   const result = await productsService.buy({ orderData: body, user });
   if (result.error) {
     res.status(400);

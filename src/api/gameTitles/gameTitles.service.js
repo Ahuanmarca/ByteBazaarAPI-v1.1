@@ -1,5 +1,4 @@
 import * as gameTitlesRepository from './gameTitles.repository.js';
-// import * as productsService from '../products/products.service.js';
 import * as productsRepository from '../products/products.repository.js';
 import * as genresRepository from '../genres/genres.repository.js';
 
@@ -13,7 +12,6 @@ async function getAll() {
   return gameTitles;
 }
 
-// Commit: Going to same layer can cause circular dependencies
 async function getByProductId(productId) {
   const product = await productsRepository.getById({ id: productId });
   return product.gameTitle;
