@@ -1,18 +1,21 @@
 import ProductsModel from './products.model.js';
+import Platform from '../platforms/platforms.model.js';
+import GameTitle from '../gameTitles/gameTitles.model.js';
+import Genre from '../genres/genres.model.js';
 
 async function getAll({ skip, limit }) {
   const products = await ProductsModel
     .find({})
     .select('stock price')
     .populate({
-      path: 'gameTitle_id',
+      path: 'gameTitle',
       select: '-_id -description -__v',
       populate: {
-        path: 'genresId',
+        path: 'genres',
         select: '-_id -__v',
       },
     })
-    .populate({ path: 'platform_id', select: '-_id -__v' })
+    .populate({ path: 'platform', select: '-__v' })
     .sort({ listedDate: -1 })
     .skip(skip)
     .limit(limit)
@@ -24,14 +27,13 @@ async function getById({ id }) {
   const product = await ProductsModel
     .findById(id)
     .populate({
-      path: 'gameTitle_id',
-      // TODO: Return genres as 'genres' array with array of strings
+      path: 'gameTitle',
       populate: {
-        path: 'genresId',
-        select: '-_id -__v',
+        path: 'genres',
+        select: '-__v',
       },
     })
-    .populate('platform_id')
+    .populate('platform')
     .lean();
   return product;
 }
@@ -39,8 +41,8 @@ async function getById({ id }) {
 async function getRecommended({ platformId, gameTitleIds }) {
   const recommendedProducts = await ProductsModel
     .find({
-      platform_id: platformId,
-      gameTitle_id: { $in: gameTitleIds },
+      platform: platformId,
+      gameTitle: { $in: gameTitleIds },
     })
     .sort({ listedDate: -1 })
     .lean();
@@ -50,10 +52,18 @@ async function getRecommended({ platformId, gameTitleIds }) {
 const getRelated = async ({ gameTitleIds, product, limit = 3 }) => {
   const relatedProducts = await ProductsModel
     .aggregate([
-      { $match: { _id: { $ne: product }, gameTitle_id: { $in: gameTitleIds } } },
+      { $match: { _id: { $ne: product }, gameTitle: { $in: gameTitleIds } } },
       { $sample: { size: limit } },
     ])
     .exec();
+  await GameTitle.populate(relatedProducts, { path: 'gameTitle' });
+  await Platform.populate(relatedProducts, { path: 'platform' });
+
+  // TODO: Populate genres inside populated gameTitles (currently NOT WORKING!)
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const prod of relatedProducts) {
+    Genre.populate(prod.gameTitle, { path: 'genres' });
+  }
 
   return relatedProducts;
 };

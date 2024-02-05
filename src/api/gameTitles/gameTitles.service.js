@@ -1,5 +1,6 @@
 import * as gameTitlesRepository from './gameTitles.repository.js';
-import * as productsService from '../products/products.service.js';
+// import * as productsService from '../products/products.service.js';
+import * as productsRepository from '../products/products.repository.js';
 import * as genresRepository from '../genres/genres.repository.js';
 
 async function getById({ id }) {
@@ -12,9 +13,10 @@ async function getAll() {
   return gameTitles;
 }
 
+// Commit: Going to same layer can cause circular dependencies
 async function getByProductId(productId) {
-  const product = await productsService.getById({ id: productId });
-  return product.gameTitle_id;
+  const product = await productsRepository.getById({ id: productId });
+  return product.gameTitle;
 }
 
 async function create(newTitleData) {
@@ -32,7 +34,7 @@ async function create(newTitleData) {
     title,
     description,
     image,
-    genresId: foundGenres.map((genre) => genre._id),
+    genres: foundGenres.map((genre) => genre._id),
   });
   return { created: newGameTitle };
 }
@@ -40,9 +42,9 @@ async function create(newTitleData) {
 async function updateGenres(id, genres) {
   const foundGenres = await genresRepository.getByNames(genres);
   if (foundGenres.length !== genres.length) return 'Aborted: One or more genres not found.';
-  const genresId = foundGenres.map((g) => g._id);
+  const genresIds = foundGenres.map((g) => g._id);
 
-  const updatedTitle = await gameTitlesRepository.updateGenres(id, genresId);
+  const updatedTitle = await gameTitlesRepository.updateGenres(id, genresIds);
   return updatedTitle;
 }
 

@@ -4,26 +4,18 @@ import GameTitleModel from './gameTitles.model.js';
 async function getById({ id }) {
   const gameTitle = await GameTitleModel
     .findById(id)
-    .populate('genresId')
+    .populate({ path: 'genres', select: '-_id -__v' })
     .lean();
   if (!gameTitle) return 'gameTitle not found!';
-  gameTitle.genres = gameTitle.genresId.map((g) => g.name);
-  delete gameTitle.genresId;
   return gameTitle;
 }
 
 async function getAll() {
   const gameTitles = await GameTitleModel
     .find()
-    .populate('genresId')
+    .populate({ path: 'genres', select: '-__v' })
     .lean();
   if (gameTitles.length === 0) return 'No gameTitles found!';
-  // Manipulating the objects to return 'genres: ['genre1', 'genre2']' array,
-  // instead of a 'genresId' array with objects. Can I do this on the query?
-  gameTitles.forEach((game) => {
-    game.genres = game.genresId.map((g) => g.name);
-    delete game.genresId;
-  });
   return gameTitles;
 }
 
@@ -38,10 +30,10 @@ async function create(newTitleData) {
   return newTitle;
 }
 
-async function updateGenres(id, genresId) {
+async function updateGenres(id, genresIds) {
   const updatedTitle = await GameTitleModel.findByIdAndUpdate(
     { _id: id },
-    { $addToSet: { genresId } },
+    { $addToSet: { genresIds } },
     { new: true },
   );
   return updatedTitle;
@@ -53,6 +45,14 @@ async function destroy(id) {
   return { deleted: deletedTitle };
 }
 
+// TODO: Complete this route!
+async function getByGenreIds(genreIds) {
+  const gameTitles = await GameTitleModel.find({
+    genres: { $in: genreIds },
+  }).populate('genres');
+  return gameTitles;
+}
+
 export {
   getById,
   getAll,
@@ -60,4 +60,5 @@ export {
   create,
   updateGenres,
   destroy,
+  getByGenreIds,
 };

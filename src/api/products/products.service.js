@@ -3,6 +3,8 @@ import * as orderProductsService from '../orderProducts/orderProducts.service.js
 import * as ordersService from '../orders/orders.service.js';
 import * as genresGameTitlesService from '../genres_gameTitles/genres_gameTitles.service.js';
 import * as usersService from '../users/users.service.js';
+// import * as gameTitlesService from '../gameTitles/gameTitles.service.js';
+import * as gameTitlesRepository from '../gameTitles/gameTitles.repository.js';
 
 async function getAll({ skip, limit }) {
   const products = await productsRepository.getAll({ skip, limit });
@@ -28,8 +30,8 @@ async function getRecommended({ userId }) {
   const orderProd = await orderProductsService
     .getProductGameTitleFromOrder({ orderId: _id });
 
-  const platformId = orderProd.productId.platform_id;
-  const gameTitleId = orderProd.productId.gameTitle_id;
+  const platformId = orderProd.productId.platform;
+  const gameTitleId = orderProd.productId.gameTitle;
 
   // The array of genre IDs for the GameTitleId is obtained
   const genres = await genresGameTitlesService.getGenresByGameTitleId({ gameTitleId });
@@ -37,7 +39,7 @@ async function getRecommended({ userId }) {
 
   // The GameTitleIds with those same genres are searched for
   const gameTitles = await genresGameTitlesService.getGameTitlesByGenreIds({ genreIds });
-  const gameTitleIds = gameTitles.map((item) => item.gameTitle_id);
+  const gameTitleIds = gameTitles.map((item) => item.gameTitle);
 
   const recommended = await productsRepository.getRecommended({ platformId, gameTitleIds });
   return recommended;
@@ -45,13 +47,13 @@ async function getRecommended({ userId }) {
 
 async function getRelated({ id }) {
   const product = await productsRepository.getById({ id });
-  const gameTitleId = product.gameTitle_id;
-  const genres = await genresGameTitlesService.getGenresByGameTitleId({ gameTitleId });
-  const genreIds = genres.map((item) => item.genre_id);
-  const gameTitles = await genresGameTitlesService.getGameTitlesByGenreIds({ genreIds });
-  const gameTitleIds = gameTitles.map((item) => item.gameTitle_id);
-  const recommended = await productsRepository.getRelated({ gameTitleIds, product });
-  return recommended;
+  const { gameTitle } = product;
+  const { genres } = gameTitle;
+  const genreIds = genres.map((g) => g._id); // BUG FIX 🐛
+  const gameTitles = await gameTitlesRepository.getByGenreIds(genreIds);
+  const gameTitleIds = gameTitles.map((item) => item._id); // BUG FIX 🐛
+  const related = await productsRepository.getRelated({ gameTitleIds, product });
+  return related;
 }
 
 function addDataToProducts({ products, pricesAndStock }) {
