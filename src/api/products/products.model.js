@@ -3,12 +3,12 @@ import { Schema, model } from 'mongoose';
 const { ObjectId } = Schema.Types;
 
 const productsSchema = new Schema({
-  gameTitle_id: {
+  gameTitle: {
     type: ObjectId,
     required: true,
     ref: 'GameTitle',
   },
-  platform_id: {
+  platform: {
     type: ObjectId,
     required: true,
     ref: 'Platform',
