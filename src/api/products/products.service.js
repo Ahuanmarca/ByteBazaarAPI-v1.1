@@ -1,10 +1,9 @@
 import * as productsRepository from './products.repository.js';
-import * as orderProductsService from '../orderProducts/orderProducts.service.js';
-import * as ordersService from '../orders/orders.service.js';
-import * as genresGameTitlesService from '../genres_gameTitles/genres_gameTitles.service.js';
-import * as usersService from '../users/users.service.js';
-// import * as gameTitlesService from '../gameTitles/gameTitles.service.js';
+import * as ordersRepository from '../orders/orders.repository.js';
 import * as gameTitlesRepository from '../gameTitles/gameTitles.repository.js';
+import * as ordersService from '../orders/orders.service.js';
+import * as usersService from '../users/users.service.js';
+import * as orderProductsService from '../orderProducts/orderProducts.service.js';
 
 async function getAll({ skip, limit }) {
   const products = await productsRepository.getAll({ skip, limit });
@@ -17,34 +16,26 @@ async function getById({ id }) {
 }
 
 async function getRecommended({ userId }) {
-  const userOrders = await ordersService.getOrdersByUserId({ userId });
+  const userOrders = await ordersRepository.getOrdersByUserId({ userId });
+
+  // Return the most recent products if no orders have been placed yet
   if (!(userOrders && userOrders.length >= 1)) {
-    // Return the most recent products if no orders have been placed yet
     const products = await productsRepository.getAll({ skip: 0, limit: 10 });
     return products;
   }
-  // Obtain the last order
-  const lastOrder = userOrders.slice(0, 1)[0];
+  const lastOrder = userOrders.slice(0, 1)[0]; // TODO: Why .slice ??
 
-  const { _id } = lastOrder;
-  const orderProd = await orderProductsService
-    .getProductGameTitleFromOrder({ orderId: _id });
-
-  const platformId = orderProd.productId.platform;
-  const gameTitleId = orderProd.productId.gameTitle;
-
-  // The array of genre IDs for the GameTitleId is obtained
-  const genres = await genresGameTitlesService.getGenresByGameTitleId({ gameTitleId });
-  const genreIds = genres.map((item) => item.genre_id);
-
-  // The GameTitleIds with those same genres are searched for
-  const gameTitles = await genresGameTitlesService.getGameTitlesByGenreIds({ genreIds });
-  const gameTitleIds = gameTitles.map((item) => item.gameTitle);
+  // TODO: Investigate WHY do I need to select products[0].product 😵‍💫
+  const platformId = lastOrder.products[0].product.platform._id;
+  const genreIds = lastOrder.products[0].product.gameTitle.genres.map((g) => g._id);
+  const gameTitles = await gameTitlesRepository.getByGenreIds(genreIds);
+  const gameTitleIds = gameTitles.map((item) => item._id);
 
   const recommended = await productsRepository.getRecommended({ platformId, gameTitleIds });
   return recommended;
 }
 
+//! BUG: App crashes when product is not found (i.e. invalid id)
 async function getRelated({ id }) {
   const product = await productsRepository.getById({ id });
   const { gameTitle } = product;

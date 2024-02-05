@@ -45,6 +45,8 @@ async function getRecommended({ platformId, gameTitleIds }) {
       gameTitle: { $in: gameTitleIds },
     })
     .sort({ listedDate: -1 })
+    .populate('platform')
+    .populate('gameTitle')
     .lean();
   return recommendedProducts;
 }

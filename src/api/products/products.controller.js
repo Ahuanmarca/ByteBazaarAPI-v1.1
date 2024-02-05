@@ -13,7 +13,8 @@ async function getById(req, res) {
 }
 
 async function getRecommended(req, res) {
-  const userId = req.user._id;
+  const userId = req.user?._id || '65c092e67aaecf4937ffad2f'; // DEBUG User with orders
+  // const userId = req.user?._id || '65c092e67aaecf4937ffad31'; // DEBUG User without orders
   const products = await productsService.getRecommended({ userId });
   res.json({ products });
 }
