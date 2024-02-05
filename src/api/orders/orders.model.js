@@ -3,10 +3,25 @@ import { Schema, model } from 'mongoose';
 const { ObjectId } = Schema.Types;
 
 const ordersSchema = new Schema({
-  user_id: {
+  user: {
     type: ObjectId,
     required: true,
   },
+  products: [
+    {
+      product: {
+        type: ObjectId,
+        ref: 'Product',
+      },
+      quantity: {
+        type: Number,
+      },
+      soldPrice: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
   date: {
     type: Date,
     required: true,
@@ -18,5 +33,5 @@ const ordersSchema = new Schema({
   },
 });
 
-const orderModel = model('Order', ordersSchema);
+const orderModel = model('Order', ordersSchema, 'orders');
 export default orderModel;

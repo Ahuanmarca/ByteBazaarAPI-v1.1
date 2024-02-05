@@ -1,12 +1,24 @@
 /* eslint-disable dot-notation */
+import mongoose from 'mongoose';
 import gameTitlesData from './gameTitlesData.js';
 import platformsData from './platformsData.js';
 
+const { ObjectId } = mongoose.Types;
 const gameTitlesMap = Object.fromEntries(gameTitlesData.map((g) => [g.title, g._id]));
 const platformsMap = Object.fromEntries(platformsData.map((p) => [p.name, p._id]));
 
+/**
+ * I'm hardcoding the id's of some products so I can
+ * hardcode the same id's on some orders, for simplicity
+ * of the seeding script
+ * 65c092e67aaecf4937ffad34 first EldenRing
+ * 65c092e67aaecf4937ffad37 first God of War
+ * 65c092e67aaecf4937ffad41 first Metroid Prime
+ */
+
 const productsData = [
   {
+    _id: new ObjectId('65c092e67aaecf4937ffad34'), // HARDCODED
     gameTitle: gameTitlesMap['Elden Ring'],
     platform: platformsMap['PlayStation4'],
     stock: 5,
@@ -28,6 +40,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c092e67aaecf4937ffad37'), // HARDCODED
     gameTitle: gameTitlesMap['God of War Ragnarök'],
     platform: platformsMap['PlayStation4'],
     stock: 5,
@@ -98,6 +111,7 @@ const productsData = [
     price: 50,
   },
   {
+    _id: new ObjectId('65c092e67aaecf4937ffad41'), // HARDCODED
     gameTitle: gameTitlesMap['Metroid Prime Remastered'],
     platform: platformsMap['NintendoSwitch'],
     stock: 5,

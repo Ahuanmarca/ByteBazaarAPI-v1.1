@@ -8,12 +8,14 @@ import GameTitle from '../api/gameTitles/gameTitles.model.js';
 import Platform from '../api/platforms/platforms.model.js';
 import User from '../api/users/users.model.js';
 import Product from '../api/products/products.model.js';
+import Order from '../api/orders/orders.model.js';
 
 import genresData from './genresData.js';
 import gameTitlesData from './gameTitlesData.js';
 import platformsData from './platformsData.js';
 import usersData from './usersData.js';
 import productsData from './productsData.js';
+import ordersData from './ordersData.js';
 
 dotenv.config();
 
@@ -30,15 +32,18 @@ async function main() {
 
   // SEEDING!!
   await Genre.deleteMany();
-  const newGenres = await Genre.insertMany(genresData);
   await GameTitle.deleteMany();
-  const newGameTitles = await GameTitle.insertMany(gameTitlesData);
   await Platform.deleteMany();
-  const newPlatforms = await Platform.insertMany(platformsData);
   await User.deleteMany();
-  const newUsers = await User.insertMany(usersData);
   await Product.deleteMany();
+  await Order.deleteMany();
+
+  const newGenres = await Genre.insertMany(genresData);
+  const newGameTitles = await GameTitle.insertMany(gameTitlesData);
+  const newPlatforms = await Platform.insertMany(platformsData);
+  const newUsers = await User.insertMany(usersData);
   const newProducts = await Product.insertMany(productsData);
+  const newOrders = await Order.insertMany(ordersData);
 
   console.log({
     newGenres: newGenres.length,
@@ -46,6 +51,7 @@ async function main() {
     newPlatforms: newPlatforms.length,
     newUsers: newUsers.length,
     newProducts: newProducts.length,
+    newOrders: newOrders.length,
   });
 
   mongoose.connection.close();
