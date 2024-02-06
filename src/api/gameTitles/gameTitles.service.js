@@ -46,8 +46,9 @@ async function updateGenres(id, genres) {
   return updatedTitle;
 }
 
-async function destroy(id) {
-  const deletedTitle = await gameTitlesRepository.destroy(id);
+async function softDelete(id) {
+  const deletedTitle = await gameTitlesRepository.softDelete(id);
+  if (!deletedTitle) return 'gameTitle not found';
   return deletedTitle;
 }
 
@@ -57,5 +58,5 @@ export {
   getByProductId,
   create,
   updateGenres,
-  destroy,
+  softDelete,
 };

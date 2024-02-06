@@ -39,10 +39,18 @@ async function updateGenres(id, genresIds) {
   return updatedTitle;
 }
 
-async function destroy(id) {
-  const deletedTitle = await GameTitleModel.findByIdAndDelete(id);
-  if (!deletedTitle) return 'GameTitle does not exist!';
-  return { deleted: deletedTitle };
+async function softDelete(id) {
+  let deletedTitle;
+  try {
+    deletedTitle = await GameTitleModel.findOneAndUpdate(
+      { _id: id },
+      { deleted: true },
+      { new: true },
+    );
+  } catch (e) {
+    deletedTitle = null;
+  }
+  return deletedTitle;
 }
 
 // TODO: Complete this route!
@@ -59,6 +67,6 @@ export {
   getByTitle,
   create,
   updateGenres,
-  destroy,
+  softDelete,
   getByGenreIds,
 };

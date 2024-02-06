@@ -29,9 +29,9 @@ async function updateGenres(req, res) {
   res.json(updatedTitle);
 }
 
-async function destroy(req, res) {
+async function softDelete(req, res) {
   const { id } = req.params;
-  const deletedTitle = await gameTitlesService.destroy(id);
+  const deletedTitle = await gameTitlesService.softDelete(id);
   res.json(deletedTitle);
 }
 
@@ -41,5 +41,5 @@ export {
   getByProductId,
   create,
   updateGenres,
-  destroy,
+  softDelete,
 };

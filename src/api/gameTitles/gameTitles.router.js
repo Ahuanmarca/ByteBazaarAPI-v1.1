@@ -15,6 +15,6 @@ router.get('/productId/:id', gameTitlesController.getByProductId);
 router.patch('/updateGenres/:id', gameTitlesController.updateGenres);
 
 // DELETE
-router.delete('/delete/:id', gameTitlesController.destroy);
+router.delete('/delete/:id', gameTitlesController.softDelete);
 
 export default router;

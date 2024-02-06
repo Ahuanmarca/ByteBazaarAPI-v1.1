@@ -14,6 +14,10 @@ const gameTitlesSchema = new Schema({
   image: {
     type: String,
   },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
   genres: [{
     type: ObjectId,
     ref: 'Genre',
