@@ -17,8 +17,15 @@ async function getByNames(req, res) {
   res.json(foundGenres);
 }
 
+async function create(req, res) {
+  const { genres } = req.body;
+  const createdGenres = await genresService.create(genres);
+  res.json(createdGenres);
+}
+
 export {
   getById,
   getAll,
   getByNames,
+  create,
 };

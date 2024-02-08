@@ -15,8 +15,14 @@ async function getByNames(genres) {
   return foundGenres;
 }
 
+async function create(genres) {
+  const createdGenres = await genresRepository.upsertMany(genres);
+  return createdGenres;
+}
+
 export {
   getById,
   getAll,
   getByNames,
+  create,
 };
