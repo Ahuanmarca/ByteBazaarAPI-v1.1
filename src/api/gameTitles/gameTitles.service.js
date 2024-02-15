@@ -1,20 +1,21 @@
 import * as gameTitlesRepository from './gameTitles.repository.js';
 import * as productsRepository from '../products/products.repository.js';
 import * as genresRepository from '../genres/genres.repository.js';
+import { formatGameTitle } from '../../utils/formatters.js';
 
 async function getById({ id }) {
   const gameTitle = await gameTitlesRepository.getById({ id });
-  return gameTitle;
+  return formatGameTitle(gameTitle);
 }
 
 async function getAll() {
   const gameTitles = await gameTitlesRepository.getAll();
-  return gameTitles;
+  return gameTitles.map((g) => formatGameTitle(g));
 }
 
 async function getByProductId(productId) {
   const product = await productsRepository.getById({ id: productId });
-  return product.gameTitle;
+  return formatGameTitle(product.gameTitle);
 }
 
 async function create(newTitleData) {
@@ -34,7 +35,7 @@ async function create(newTitleData) {
     image,
     genres: foundGenres.map((genre) => genre._id),
   });
-  return { created: newGameTitle };
+  return { created: formatGameTitle(newGameTitle) };
 }
 
 async function updateGenres(id, genres) {
@@ -43,13 +44,13 @@ async function updateGenres(id, genres) {
   const genresIds = foundGenres.map((g) => g._id);
 
   const updatedTitle = await gameTitlesRepository.updateGenres(id, genresIds);
-  return updatedTitle;
+  return formatGameTitle(updatedTitle);
 }
 
 async function softDelete(id) {
   const deletedTitle = await gameTitlesRepository.softDelete(id);
   if (!deletedTitle) return 'gameTitle not found';
-  return deletedTitle;
+  return formatGameTitle(deletedTitle);
 }
 
 export {
