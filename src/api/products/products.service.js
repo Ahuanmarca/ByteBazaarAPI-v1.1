@@ -2,15 +2,17 @@ import * as productsRepository from './products.repository.js';
 import * as ordersRepository from '../orders/orders.repository.js';
 import * as gameTitlesRepository from '../gameTitles/gameTitles.repository.js';
 import * as usersService from '../users/users.service.js';
+import * as platformsRepository from '../platforms/platforms.repository.js';
+import { formatProduct } from '../../utils/formatters.js';
 
 async function getAll({ skip, limit }) {
   const products = await productsRepository.getAll({ skip, limit });
-  return products;
+  return products.map((p) => formatProduct(p));
 }
 
 async function getById({ id }) {
   const product = await productsRepository.getById({ id });
-  return product;
+  return formatProduct(product);
 }
 
 async function getRecommended({ userId }) {
@@ -19,7 +21,7 @@ async function getRecommended({ userId }) {
   // Return the most recent products if no orders have been placed yet
   if (!(userOrders && userOrders.length >= 1)) {
     const products = await productsRepository.getAll({ skip: 0, limit: 10 });
-    return products;
+    return products.map((p) => formatProduct(p));
   }
   const lastOrder = userOrders.slice(0, 1)[0]; // TODO: Why .slice ??
 
@@ -30,7 +32,7 @@ async function getRecommended({ userId }) {
   const gameTitleIds = gameTitles.map((item) => item._id);
 
   const recommended = await productsRepository.getRecommended({ platformId, gameTitleIds });
-  return recommended;
+  return recommended.map((p) => formatProduct(p));
 }
 
 //! BUG: App crashes when product is not found (i.e. invalid id)
@@ -42,7 +44,7 @@ async function getRelated({ id }) {
   const gameTitles = await gameTitlesRepository.getByGenreIds(genreIds);
   const gameTitleIds = gameTitles.map((item) => item._id); // BUG FIX 🐛
   const related = await productsRepository.getRelated({ gameTitleIds, product });
-  return related;
+  return related.map((p) => formatProduct(p));
 }
 
 function addDataToProducts({ products, pricesAndStock }) {
@@ -98,7 +100,31 @@ async function buy({ orderData, user }) {
   return result;
 }
 
-// TODO: 'product.product' is very confusing (55 and 65). Improve it!
+// TODO: 'product.product' is very confusing ~(54 and 65).
+
+/**
+ * product.service.create
+ * Argument expected as data: { gameTitle: _id, platform: _id }
+ * Aborts if gameTitle or platform don't exist on db
+ * Aborts if gameTitle <--> platform relation already exists
+ * -- Meaning there is already a Product referencing both the gameTitle and the platform
+ */
+
+async function create(data) {
+  const foundGameTitle = await gameTitlesRepository.getById({ id: data.gameTitle });
+  if (!foundGameTitle) return `No gameTitle found with id ${data.gameTitle}`;
+  const foundPlatform = await platformsRepository.getById({ id: data.platform });
+  if (!foundPlatform) return `No platform found with id ${data.platform}`;
+
+  const alreadyExists = await productsRepository.findBy({
+    gameTitle: foundGameTitle._id,
+    platform: foundPlatform._id,
+  });
+  if (alreadyExists) return `Product already exists with id ${alreadyExists._id}`;
+
+  const newProduct = await productsRepository.create(data);
+  return formatProduct(newProduct);
+}
 
 export {
   getAll,
@@ -106,4 +132,5 @@ export {
   getRecommended,
   getRelated,
   buy,
+  create,
 };

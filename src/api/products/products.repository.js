@@ -1,21 +1,27 @@
-import ProductsModel from './products.model.js';
+import Product from './products.model.js';
 import Platform from '../platforms/platforms.model.js';
 import GameTitle from '../gameTitles/gameTitles.model.js';
 import Genre from '../genres/genres.model.js';
 
+/**
+ * Rules:
+ * - Return the object(s) queried from the database, as they come
+ * - Don't alter them
+ * - Should populate them when possible
+ * - NOTE: Objects may be formatted in 'service', but not here
+ */
+
 async function getAll({ skip, limit }) {
-  const products = await ProductsModel
+  const products = await Product
     .find({})
-    .select('stock price')
+    // .select('stock price')
     .populate({
       path: 'gameTitle',
-      select: '-_id -description -__v',
       populate: {
         path: 'genres',
-        select: '-_id -__v',
       },
     })
-    .populate({ path: 'platform', select: '-__v' })
+    .populate({ path: 'platform' })
     .sort({ listedDate: -1 })
     .skip(skip)
     .limit(limit)
@@ -24,13 +30,12 @@ async function getAll({ skip, limit }) {
 }
 
 async function getById({ id }) {
-  const product = await ProductsModel
+  const product = await Product
     .findById(id)
     .populate({
       path: 'gameTitle',
       populate: {
         path: 'genres',
-        select: '-__v',
       },
     })
     .populate('platform')
@@ -39,39 +44,39 @@ async function getById({ id }) {
 }
 
 async function getRecommended({ platformId, gameTitleIds }) {
-  const recommendedProducts = await ProductsModel
+  const recommendedProducts = await Product
     .find({
       platform: platformId,
       gameTitle: { $in: gameTitleIds },
     })
     .sort({ listedDate: -1 })
     .populate('platform')
-    .populate('gameTitle')
+    .populate(
+      {
+        path: 'gameTitle',
+        populate: {
+          path: 'genres',
+        },
+      },
+    )
     .lean();
   return recommendedProducts;
 }
 
 const getRelated = async ({ gameTitleIds, product, limit = 3 }) => {
-  const relatedProducts = await ProductsModel
+  const relatedProducts = await Product
     .aggregate([
       { $match: { _id: { $ne: product }, gameTitle: { $in: gameTitleIds } } },
       { $sample: { size: limit } },
     ])
     .exec();
-  await GameTitle.populate(relatedProducts, { path: 'gameTitle' });
+  await GameTitle.populate(relatedProducts, { path: 'gameTitle', populate: { path: 'genres' } });
   await Platform.populate(relatedProducts, { path: 'platform' });
-
-  // TODO: Populate genres inside populated gameTitles (currently NOT WORKING!)
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const prod of relatedProducts) {
-    Genre.populate(prod.gameTitle, { path: 'genres' });
-  }
-
   return relatedProducts;
 };
 
 async function getPricesAndStockById({ productIds }) {
-  const pricesAndStock = await ProductsModel
+  const pricesAndStock = await Product
     .find({ _id: { $in: productIds } })
     .select('price stock')
     .lean();
@@ -85,8 +90,25 @@ async function updateStock({ products }) {
       update: { $inc: { stock: -product.quantity } },
     },
   }));
-  const res = await ProductsModel.bulkWrite(productsBulk);
+  const res = await Product.bulkWrite(productsBulk);
   return res;
+}
+
+async function findBy(data) {
+  try {
+    return await Product.findOne(data);
+  } catch (e) {
+    return null;
+  }
+}
+
+async function create(data) {
+  const newProduct = new Product(data);
+  await GameTitle.populate(newProduct, { path: 'gameTitle' });
+  await Platform.populate(newProduct, { path: 'platform' });
+  await Genre.populate(newProduct, { path: 'gameTitle.genres' });
+  newProduct.save();
+  return newProduct;
 }
 
 export {
@@ -96,4 +118,6 @@ export {
   getRelated,
   getPricesAndStockById,
   updateStock,
+  create,
+  findBy,
 };

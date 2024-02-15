@@ -36,10 +36,22 @@ async function buy(req, res) {
   return res.json(result);
 }
 
+async function create({ body }, res) {
+  const {
+    gameTitle, platform, stock, price,
+  } = body;
+  if (!gameTitle || !platform || !stock || !price) {
+    return res.json('Missing data to create Product.');
+  }
+  const newProduct = await productsService.create(body);
+  return res.json(newProduct);
+}
+
 export {
   getAll,
   getById,
   getRecommended,
   getRelated,
   buy,
+  create,
 };

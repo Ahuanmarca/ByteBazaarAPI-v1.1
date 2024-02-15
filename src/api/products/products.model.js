@@ -19,7 +19,7 @@ const productsSchema = new Schema({
   },
   listedDate: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
   price: {
     type: Number,
