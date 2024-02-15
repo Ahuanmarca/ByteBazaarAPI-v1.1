@@ -1,21 +1,32 @@
-import GenreModel from './genres.model.js';
+import Genre from './genres.model.js';
 
 async function getAll() {
-  const genres = await GenreModel.find({}).lean();
-  return genres;
+  try {
+    return await Genre.find({}).lean();
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
 
 async function getById(id) {
-  const genre = await GenreModel.findById(id).lean();
-  return genre;
+  try {
+    return await Genre.findById(id).lean();
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
 
 async function getByNames(genresNames) {
-  const genres = await GenreModel.find({ name: { $in: genresNames } });
-  return genres;
+  try {
+    return await Genre.find({ name: { $in: genresNames } });
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 }
 
-// TODO: Complete this route?
 async function upsertMany(genres) {
   const genresBulk = genres.map((g) => ({
     updateOne: {
@@ -24,7 +35,7 @@ async function upsertMany(genres) {
       upsert: true,
     },
   }));
-  const res = await GenreModel.bulkWrite(genresBulk);
+  const res = await Genre.bulkWrite(genresBulk);
   return res;
 }
 
