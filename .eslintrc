@@ -12,6 +12,8 @@
       "sourceType": "module"
     },
     "rules": {
+      "no-use-before-define": "off",
+      "no-console": "off",
       "radix": 0,
       "linebreak-style": 0,
       "no-underscore-dangle": 0,
